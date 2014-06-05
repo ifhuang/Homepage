@@ -1,0 +1,5 @@
+CutOnce - Recipient Recommendation and Leak Detection in Action
+
+Beidou Wang, Can Wang, Jiajun Bu, Chun Chen, Wei Vivian Zhang, Deng Cai, Xiaofei He: Whom to mention: expand the diffusion of tweets by @ recommendation on micro-blogging systems. WWW 2013:1331-1340
+Zhunchen Luo, Miles Osborne, Jintao Tang, Ting Wang: Who will retweet me?: finding retweeters in twitter. SIGIR 2013:869-872
+Shengxian Wan, Yanyan Lan, Jiafeng Guo, Chaosheng Fan, Xueqi Cheng: Informational friend recommendation in social media. SIGIR 2013:1045-1048

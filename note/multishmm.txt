@@ -1,0 +1,3 @@
+Dmitry Pidan, Ran El-Yaniv: Selective Prediction of Financial Trends with Hidden Markov Models. NIPS 2011:855-863
+Johan Bollen, Huina Mao, Xiao-Jun Zeng: Twitter mood predicts the stock market. J. Comput. Science (JOCS) 2(1):1-8 (2011)
+Jianfeng Si, Arjun Mukherjee, Bing Liu, Qing Li, Huayi Li, Xiaotie Deng: Exploiting Topic based Twitter Sentiment for Stock Prediction. ACL 2013:24-29
