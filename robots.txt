@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: http://admis.fudan.edu.cn/~yfhuang/sitemap.xml
