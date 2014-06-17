@@ -1,0 +1,5 @@
+Data-Intensive Text Processing with MapReduce
+Hadoop: The Definitive Guide, 3rd edition
+Hadoop Internals: in-depth study of Common and HDFS
+Hadoop Internals: in-depth study of MapReduce
+Hadoop Internals: in-depth study of YARN
