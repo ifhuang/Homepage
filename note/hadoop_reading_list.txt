@@ -1,5 +1,19 @@
-Data-Intensive Text Processing with MapReduce
-Hadoop: The Definitive Guide, 3rd edition
-Hadoop Internals: in-depth study of Common and HDFS
-Hadoop Internals: in-depth study of MapReduce
-Hadoop Internals: in-depth study of YARN
+---------------------------------------------------------------------------------------------
+<<An Introduction to Parallel Programming>>
+http://www.cs.usfca.edu/~peter/ipp/
+Introduce how to write parallel program with distributed memory system (MPI) and shared memory system (Pthreads and OpenMP).
+---------------------------------------------------------------------------------------------
+<<Data-Intensive Text Processing with MapReduce>>
+http://lintool.github.io/MapReduceAlgorithms/
+Introduce the MapReduce programming model.
+---------------------------------------------------------------------------------------------
+<<Hadoop: The Definitive Guide, 3rd Edition>>
+http://hadoopbook.com/
+Introduce how to use Hadoop and its ecosystem.
+---------------------------------------------------------------------------------------------
+<<Hadoop Internals: in-depth study of Common and HDFS>>
+<<Hadoop Internals: in-depth study of MapReduce>>
+<<Hadoop Internals: in-depth study of YARN>>
+http://hadoop123.com/
+Introduce the architecture and implementation of HDFS, MapReduce and YARN in Chinese.
+---------------------------------------------------------------------------------------------
