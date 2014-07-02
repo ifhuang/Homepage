@@ -1,0 +1,33 @@
+body {
+    font-family: 'Times New Roman';
+}
+
+#main {
+    width: 750px;
+    display: block;
+    text-align: left;
+}
+
+#schedule {
+    text-align: center;
+}
+
+    #schedule tr {
+        height: 25px;
+    }
+
+.up {
+    top: -0.45em;
+    font-size: 67%;
+    position: relative;
+}
+
+.sub {
+    color: #0000ff;
+    font-weight: bold;
+}
+
+.red {
+    font-weight: bold;
+    color: red;
+}
