@@ -1,0 +1,200 @@
+-- Yifu Huang
+-- DDL for SHIP_VACATION_CAL
+CREATE TABLE P_CSI_TBS_T.SHIP_VACATION_CAL AS (
+	CNTRY_ID DECIMAL(4,0) NOT NULL, -- joins to DW_COUNTRIES
+	CAL_DT DATE FORMAT 'yyyy/mm/dd' NOT NULL, -- joins to DW_CAL_DT
+	HOLIDAY_DESCR VARCHAR(64) NOT NULL, -- in English
+	SOURCE_URL VARCHAR(256), -- only offical government sources
+	LEAPYR_DT_IND CHAR(1) NOT NULL DEFAULT 'N', -- 'Y', if the date is the 29th February in a leapyear
+	LST_MDF_USER CHAR(10) CHARACTER SET LATIN NOT CASESPECIFIC NOT NULL, -- enter name of creator here
+	LST_MDF_DATE DATE FORMAT 'yyyy/mm/dd' NOT NULL DEFAULT CURRENT_DATE, -- date when record is created or changed
+	CAL_DT_FORMER DATE FORMAT 'yyyy/mm/dd'
+) WITH DATA PRIMARY INDEX (CNTRY_ID, CAL_DT);
+
+-- Then load all holiday data
+
+-- DDL for BUSINESS_DAY_CALENDAR
+/* this table saves all non-working days and also special working days such as leap year 29th Feb or Chinese weekend working days */			
+CREATE TABLE P_CSI_TBS_T.BUSINESS_DAY_CALENDAR (
+	CNTRY_ID DECIMAL(4,0) NOT NULL, -- PK
+	CAL_DT  DATE FORMAT 'yyyy/mm/dd' NOT NULL, -- PK; this is always the actual day
+	DT_TYPE BYTEINT NOT NULL, -- 0 holiday, 1 -- shifted holiday, 2 -- special working day
+	DESCR VARCHAR(64) CHARACTER SET LATIN NOT CASESPECIFIC NOT NULL, -- description of the holiday or special working day
+	HOLIDAY_DT DATE FORMAT 'yyyy/mm/dd', -- this is the holiday without any shifting because of weekends (NULL in case of special working days)
+	SOURCE_URL VARCHAR(256) CHARACTER SET LATIN NOT CASESPECIFIC,
+	LST_MDF_USER CHAR(10) CHARACTER SET LATIN NOT CASESPECIFIC NOT NULL,
+	LST_MDF_DATE DATE FORMAT 'yyyy/mm/dd' NOT NULL DEFAULT DATE
+) PRIMARY INDEX(CNTRY_ID,CAL_DT);
+
+-- Load data from SHIP_VACATION_CAL
+INSERT INTO P_CSI_TBS_T.BUSINESS_DAY_CALENDAR
+	SEL 
+	92 AS CNTRY_ID -- CNTRY_ID should also be 1, 3, 45, 77
+	,CAL_DT
+	,CASE WHEN CAL_DT_FORMER IS NULL THEN 2
+		WHEN CAL_DT = CAL_DT_FORMER THEN 0
+		WHEN CAL_DT <> CAL_DT_FORMER THEN 1
+		ELSE NULL END AS DT_TYPE
+	,CASE WHEN DT_TYPE IN (0,1,2) THEN HOLIDAY_DESCR
+		ELSE NULL END AS DESCR
+	,CASE WHEN DT_TYPE IN (0,1) THEN CAL_DT_FORMER 
+		ELSE NULL END AS HOLIDAY_DT
+	,SOURCE_URL
+	,LST_MDF_USER
+	,LST_MDF_DATE
+	FROM P_CSI_TBS_T.SHIP_VACATION_CAL
+	WHERE CNTRY_ID = 92 -- CNTRY_ID should also be 1, 3, 45, 77
+
+-- DDL for BUS_CAL_DT
+DROP VIEW P_CSI_TBS_V.BUS_CAL_DT;
+CREATE VIEW P_CSI_TBS_V.BUS_CAL_DT AS
+	LOCKING ROW FOR ACCESS 
+	(
+	SELECT
+	1 AS CNTRY_ID
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK NOT IN ('Sat','Sun') THEN 1 -- normal weekday
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK IN ('Sat','Sun') THEN 0 -- normal weekend
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_5BUSWK -- -1 should not occur
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK <> 'Sun' THEN 1 -- Mo-Sat
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK = 'Sun' THEN 0 -- Sun
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_6BUSWK -- -1 should not occur
+	, SUM(BUS_DAY_5BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_5BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, SUM(BUS_DAY_6BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_6BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, cal.*
+	FROM DW_CAL_DT cal
+	LEFT JOIN P_CSI_TBS_T.BUSINESS_DAY_CALENDAR vac
+		ON cal.CAL_DT = vac.CAL_DT
+			AND vac.CNTRY_ID = 1 -- all regions under US legislation
+	)
+	UNION
+	(
+	SELECT
+	3 AS CNTRY_ID
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK NOT IN ('Sat','Sun') THEN 1 -- normal weekday
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK IN ('Sat','Sun') THEN 0 -- normal weekend
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_5BUSWK -- -1 should not occur
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK <> 'Sun' THEN 1 -- Mo-Sat
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK = 'Sun' THEN 0 -- Sun
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_6BUSWK -- -1 should not occur
+	, SUM(BUS_DAY_5BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_5BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, SUM(BUS_DAY_6BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_6BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, cal.*
+	FROM DW_CAL_DT cal
+	LEFT JOIN P_CSI_TBS_T.BUSINESS_DAY_CALENDAR vac
+		ON cal.CAL_DT = vac.CAL_DT
+			AND vac.CNTRY_ID = 3 
+	)
+	UNION
+	(
+	SELECT
+	77 AS CNTRY_ID
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK NOT IN ('Sat','Sun') THEN 1 -- normal weekday
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK IN ('Sat','Sun') THEN 0 -- normal weekend
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_5BUSWK -- -1 should not occur
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK <> 'Sun' THEN 1 -- Mo-Sat
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK = 'Sun' THEN 0 -- Sun
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_6BUSWK -- -1 should not occur
+	, SUM(BUS_DAY_5BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_5BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, SUM(BUS_DAY_6BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_6BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, cal.*
+	FROM DW_CAL_DT cal
+	LEFT JOIN P_CSI_TBS_T.BUSINESS_DAY_CALENDAR vac
+		ON cal.CAL_DT = vac.CAL_DT
+			AND vac.CNTRY_ID = 77
+	)
+	UNION
+	(
+	SELECT
+	45 AS CNTRY_ID
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK NOT IN ('Sat','Sun') THEN 1 -- normal weekday
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK IN ('Sat','Sun') THEN 0 -- normal weekend
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_5BUSWK -- -1 should not occur
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK <> 'Sun' THEN 1 -- Mo-Sat
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK = 'Sun' THEN 0 -- Sun
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_6BUSWK -- -1 should not occur
+	, SUM(BUS_DAY_5BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_5BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, SUM(BUS_DAY_6BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_6BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, cal.*
+	FROM DW_CAL_DT cal
+	LEFT JOIN P_CSI_TBS_T.BUSINESS_DAY_CALENDAR vac
+		ON cal.CAL_DT = vac.CAL_DT
+			AND vac.CNTRY_ID = 45
+	)
+	UNION
+	(
+	SELECT
+	92 AS CNTRY_ID
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK NOT IN ('Sat','Sun') THEN 1 -- normal weekday
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK IN ('Sat','Sun') THEN 0 -- normal weekend
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_5BUSWK -- -1 should not occur
+	, CASE WHEN cal.CAL_DT < '1999-12-31' OR cal.CAL_DT > '2015-12-31' THEN NULL
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK <> 'Sun' THEN 1 -- Mo-Sat
+		WHEN vac.DT_TYPE IS NULL AND cal.DAY_OF_WEEK = 'Sun' THEN 0 -- Sun
+		WHEN vac.DT_TYPE IN (0,1) THEN 0 -- holiday
+		WHEN vac.DT_TYPE = 2 THEN 1 -- special working day
+		ELSE -1 END AS BUS_DAY_6BUSWK -- -1 should not occur
+	, SUM(BUS_DAY_5BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_5BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, SUM(BUS_DAY_6BUSWK) OVER (ORDER BY cal.CAL_DT ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) BUS_DAY_6BUSWK_INDEX -- only correct if BUS_DAY_6BUSWK <> -1
+	, cal.*
+	FROM DW_CAL_DT cal
+	LEFT JOIN P_CSI_TBS_T.BUSINESS_DAY_CALENDAR vac
+		ON cal.CAL_DT = vac.CAL_DT
+			AND vac.CNTRY_ID = 92
+	)
+
+-- test for BUS_CAL_DT
+SEL
+	fact.lstg_id,
+	fact.ck_trans_id,
+	fact.ACPTNC_SCAN_DT,
+	fact.TRKING_DLVRD_DT,
+	(fact.TRKING_DLVRD_DT - fact.ACPTNC_SCAN_DT) AS shipping_time_cal,
+	(cal2.BUS_DAY_5BUSWK_INDEX - cal1.BUS_DAY_5BUSWK_INDEX) AS shipping_time_bus
+FROM
+	SSA_SHPMT_TRANS_FACT fact
+	LEFT JOIN 
+	(
+		SEL CAL_DT, BUS_DAY_5BUSWK_INDEX FROM P_CSI_TBS_V.BUS_CAL_DT WHERE CNTRY_ID = 45
+	) cal1
+		ON cal1.CAL_DT = fact.ACPTNC_SCAN_DT
+	LEFT JOIN 
+	(
+		SEL CAL_DT, BUS_DAY_5BUSWK_INDEX FROM P_CSI_TBS_V.BUS_CAL_DT WHERE CNTRY_ID = 45
+	) cal2
+		ON cal2.CAL_DT = fact.TRKING_DLVRD_DT
+WHERE
+	fact.CK_DT >= '2012/06/01'
+	AND fact.LSTG_END_DT  >= '2012/06/01'
+	AND fact.LSTG_TYPE_CD NOT IN (10,12,13,15)
+	AND fact.wacko_yn_ind = 'n'
+	AND fact.SELLER_CNTRY_ID = 45
+	AND fact.ACPTNC_SCAN_DT IS NOT NULL
+	AND fact.TRKING_DLVRD_DT IS NOT NULL
+SAMPLE 100
