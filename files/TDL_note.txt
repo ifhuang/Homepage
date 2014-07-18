@@ -1,0 +1,62 @@
+Tweet Dataset List
+Yifu Huang
+
+---------------------------------------------------------------------------------------------
+http://help.sentiment140.com/for-students
+sentiment140.zip
+Format 
+Data file format has 6 fields:
+0 - the polarity of the tweet (0 = negative, 2 = neutral, 4 = positive)
+1 - the id of the tweet (2087)
+2 - the date of the tweet (Sat May 16 23:58:44 UTC 2009)
+3 - the query (lyx). If there is no query, then this value is NO_QUERY.
+4 - the user that tweeted (robotickilldozr)
+5 - the text of the tweet (Lyx is cool)
+---------------------------------------------------------------------------------------------
+https://wiki.engr.illinois.edu/display/forward/Dataset-UDI-TwitterCrawl-Aug2012
+The dataset was originally collected in May 2011. We constructed our data set by crawling Twitter with Twitter APIs. First, we randomly selected 100,000 users as seeds to crawl users' following relationships. We crawled 284 million following relationships among 20 million users. From the 2 million users, we selected 3 million users, who have at least 10 relationships in our dataset, to crawl their user profiles. After crawling their profiles, we selected about 150 thousand users, who have their locations in their profiles, from the 3 million users to crawl their public tweets. For each user, we crawled at most 500 tweets.
+UDI-TwitterCrawl-Aug2012-Network.zip
+Format
+[USER ID1]\tab [USER ID 2]
+UDI-TwitterCrawl-Aug2012-Profiles.zip
+Format
+[USER ID] \tab\ [USER NAME] \tab [FRIEND COUNT] \tab [FOLLOWER COUNT]\tab [STATUS COUNT] \tab [FAVORITE COUNT] \tab [ACCOUNT AGE ] \tab\ [USER LOCATION]
+UDI-TwitterCrawl-Aug2012-Tweets.zip
+Format
+Type: status
+Origin: [ORIGINAL CONTENT]
+Text: [PROCESSED CONTENT]
+URL: [URL TWEET]
+ID: [TWEET ID]
+Time:[CREATION TIME ]
+RetCount:[RETWEET COUNT]
+Favorite: [FAVORITE]
+MentionedEntities: [MENTIONED USER ID]
+Hashtags: [HASHTAG]
+---------------------------------------------------------------------------------------------
+https://wiki.engr.illinois.edu/display/forward/Dataset-ATM-TwitterCrawl-Aug2013
+The dataset was originally collected in June 2011. We constructed our data set by crawling Twitter with Twitter Sample API. We initially collected about 15994072 tweets, and used a subset of 5 million English tweets as our dataset. According to the task in our paper, we also labeled the tweets as target tweets or not with a classifier. Here, we define target tweets as the tweets relevant to crimes and disasters.
+ATM-TwitterCrawl-Aug2013-Tweets.zip
+Format
+ID: [ID]
+TEXT: [TWEET CONTENT]
+LABEL: [TRUE|FALSE]
+---------------------------------------------------------------------------------------------
+http://www.infochimps.com/datasets/twitter-census-stock-tweets
+Stock tweets from millions of Twitter posts leading up to, during, and after the Global Financial Crisis (March 2006 – March 2010). The data comes from analysis of 1.6 billion tweets during that time period, from approximately 40 million users. This data set includes 2.3 million stock tweets with the ticker symbol and keyword references.
+stock_symbol_keywords.tsv.bz2
+Format
+Timestamp		$TICKER SYMBOL		Tweet ID		Related Keywords
+---------------------------------------------------------------------------------------------
+http://dmml.asu.edu/users/xufei/datasets.html
+We (Shamanth Kumar and I) crawled the Twitter data set between 02/01/11 and 08/31/11 with rich information, including user profile, user tweets, retweeting, hashtag, reply, mention, geo-location, timestamps associated with each tweet, etc. The dataset contains more than 660,000 users, and 12 million tweets among the set of users. Currently the social network and Tweet ids are available for download and sharing. But Tweets are not allowed to be shared with any third party, complying to the Twitter Terms of Use. For more details, you can reach me at xufei.wang@asu.edu or visit our TwitterTracker project website, which is supported by the Office of Naval Research (ONR). We are willing to provide any assistance that we can to make your work more productive and successful.
+TweetIdList.zip
+---------------------------------------------------------------------------------------------
+http://www.techtunk.com/index.php?dove=downloads
+100 Million Geo Tagged Tweets
+100,942,118 Geo Tagged Tweets Dataset Twitter August 2013. (20 GB Uncompressed)
+5456cc65-1d4c-489b-96f2-8d5dc4a5caa5.csv.gz
+90 Million Geo Tagged Tweets
+90,272,041 Geo Tagged Tweets Dataset Twitter June 2013. (10+ GB Uncompressed)
+0517d065-e05b-40a4-a720-fb1b999e8f83.csv.gz
+---------------------------------------------------------------------------------------------

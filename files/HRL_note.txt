@@ -1,3 +1,6 @@
+Hadoop Reading List
+Yifu Huang
+
 ---------------------------------------------------------------------------------------------
 <<An Introduction to Parallel Programming>>
 http://www.cs.usfca.edu/~peter/ipp/

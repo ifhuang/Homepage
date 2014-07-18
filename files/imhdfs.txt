@@ -1,8 +1,0 @@
-Sanjay Ghemawat, Howard Gobioff, Shun-Tak Leung: The Google file system. SOSP 2003:29-43
-Jeffrey Dean, Sanjay Ghemawat: MapReduce: Simplified Data Processing on Large Clusters. OSDI 2004:137-150
-Fay Chang, Jeffrey Dean, Sanjay Ghemawat, Wilson C. Hsieh, Deborah A. Wallach, Michael Burrows, Tushar Chandra, Andrew Fikes, Robert Gruber: Bigtable: A Distributed Storage System for Structured Data (Awarded Best Paper!). OSDI 2006:205-218
-
-Ganesh Ananthanarayanan, Ali Ghodsi, Andrew Warfield, Dhruba Borthakur, Srikanth Kandula, Scott Shenker, Ion Stoica: PACMan: Coordinated Memory Caching for Parallel Jobs. NSDI 2012:267-280
-Jing Zhang, Gong-Qing Wu, Xuegang Hu, Xindong Wu: A Distributed Cache for Hadoop Distributed File System in Real-Time Cloud Services. GRID 2012:12-21
-Dongfang Zhao, Ioan Raicu: HyCache: A User-Level Caching Middleware for Distributed File Systems. IPDPS Workshops 2013:1997-2006
-Dongfang Zhao, Kan Qiao and Ioan Raicu: HyCache+: Towards Scalable High-Performance Caching Middleware for Parallel File Systems. CCGrid 2014.

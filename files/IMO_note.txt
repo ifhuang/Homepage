@@ -1,3 +1,6 @@
+﻿In-Memory OLAP Reading List
+Yifu Huang
+
 ------------------
 |large scale OLAP|
 ------------------
