@@ -1,0 +1,16 @@
+Java Reading List
+Yifu Huang
+
+---------------------------------------------------------------------------------------------
+<<Thinking in Java>>
+http://www.mindviewinc.com/Books/TIJ4/
+---------------------------------------------------------------------------------------------
+<<Effective Java>>
+https://github.com/ifhuang/effective-java-examples
+Chapter 2: static factory method, service provider framework, type inference, builder pattern, singleton, noninstantiable utility class, obsolete reference, finalizer.
+---------------------------------------------------------------------------------------------
+<<Java Concurrency in Practice>>
+http://jcip.net/
+---------------------------------------------------------------------------------------------
+<<Understanding the JVM: Advanced Features and Best Practices>>
+---------------------------------------------------------------------------------------------
