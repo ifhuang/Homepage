@@ -14,6 +14,7 @@ Chapter 5: type parameter, generic type, parameterized type, raw type, migration
 Chapter 6: enum type, annotation type, typesafe enum, constant-specific class body, constant-specific method implementation, strategy enum, EnumSet, EnumMap, naming pattern, meta-annotation, marker annotation, marker interface, restricted marker interface.
 Chapter 7: assertion, exception translation, defensive copy, TOCTOU, overload, varargs, variable arity method, documentation comment, precondition, postcondition, side effect, thread safety.
 Chapter 8: Iterable, BigDecimal, primitive, reference type, boxed primitive, autoboxing, auto-unboxing, identity comparision, capabilities, class-based framework, core reflection facility, stub compiler, performance model, naming convention, typographical, grammatical.
+Chapter 9: state-dependent, state-testing, checked exception, run-time exception, error, precondition violation, RuntimeException, IllegalArgumentException, IllegalStateException, NullPointerException, IndexOutOfBoundsException, ConcurrentModificationException, UnsupportedOperationException, exception translation, skeletal implementation, exception chaining, chaining-aware, precondition, general contract, string representation, detail message, field service personnel, hard data, failure atomic, recovery code.
 ---------------------------------------------------------------------------------------------
 <<Java Concurrency in Practice>>
 http://jcip.net/
