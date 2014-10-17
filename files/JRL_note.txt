@@ -2,6 +2,9 @@ Java Reading List
 Yifu Huang
 
 ---------------------------------------------------------------------------------------------
+<<Java Programming Interviews Exposed>>
+http://www.wrox.com/WileyCDA/WroxTitle/Java-Programming-Interviews-Exposed.productCd-1118722868.html
+---------------------------------------------------------------------------------------------
 <<Thinking in Java>>
 http://www.mindviewinc.com/Books/TIJ4/
 ---------------------------------------------------------------------------------------------
