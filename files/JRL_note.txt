@@ -2,14 +2,17 @@ Java Reading List
 Yifu Huang
 
 ---------------------------------------------------------------------------------------------
-<<Java Programming Interviews Exposed>>
-http://www.wrox.com/WileyCDA/WroxTitle/Java-Programming-Interviews-Exposed.productCd-1118722868.html
+1.
+Book: <<Java Programming Interviews Exposed>>
+Site: http://www.wrox.com/WileyCDA/WroxTitle/Java-Programming-Interviews-Exposed.productCd-1118722868.html
 ---------------------------------------------------------------------------------------------
-<<Thinking in Java>>
-http://www.mindviewinc.com/Books/TIJ4/
+2.
+Book: <<Thinking in Java>>
+Site: http://www.mindviewinc.com/Books/TIJ4/
 ---------------------------------------------------------------------------------------------
-<<Effective Java>>
-https://github.com/ifhuang/effective-java-examples
+3.
+Book: <<Effective Java>>
+Site: https://github.com/ifhuang/effective-java-examples
 Chapter 2: static factory method, service provider framework, type inference, builder pattern, singleton, noninstantiable utility class, obsolete reference, finalizer.
 Chapter 3: general contract, equals, logical equality, equivalence relation, reflexive, symmetric, transitive, consistent, non-nullity, significant field, hashCode, toString, clone, mixin interface, extralinguistic schema, covariant return type, deep copy, Comparable.
 Chapter 4: encapsulation, degenerate classes, memory model, defensive copy, composition, forwarding, wrapper class, delegation, callback framework, skeletal implementation, mixin, combinatorial explosion, simulated multiple inheritance, constant interface, tagged class, nested class, static member class, nonstatic member class, anonymous class, local class, inner class.
@@ -21,8 +24,14 @@ Chapter 9: state-dependent, state-testing, checked exception, run-time exception
 Chapter 10: synchronized, state transition, atomic, memory model, poll, hoisting, liveness failure, volatile, safety failure, effectively immutable, safe publication, alien, set wrapper, Observer, executor service, concurrent collection, CopyOnWriteArrayList, open call, lock splitting, lock striping, nonblocking, work queue, Executor Framework, thread pool, task, Runnable, Callable, wait, notify, Synchronizer, state-dependent modify operation, blocking operation, producer-consumer queue, CountDownLatch, Semaphore, thread starvation deadlock, notifying thread, spurious wakeup, immutable, unconditionally thread-safe, conditionally thread-safe, not thread-safe, thread-hostile, thread safety annotation, private lock object, lazy initialization holder class, double-check idiom, single-check idiom, thread scheduler, testable semantic, thread priority, thread group.
 Chapter 11: object serialization, serializing, deserializing, wire-level, serialization proxy, serialized form, stream unique identifier, serial version UID, extralinguisitic mechanism, binary compatibility, semantic compatibility, Serializable, atomic reference, thread-safe state machine, transient, serialization compalibility, serialization proxy pattern, readResolve.
 ---------------------------------------------------------------------------------------------
-<<Java Concurrency in Practice>>
-http://jcip.net/
+4.
+Book: <<Java Concurrency in Practice>>
+Site: http://jcip.net/
 ---------------------------------------------------------------------------------------------
-<<Understanding the JVM: Advanced Features and Best Practices>>
+5.
+Book: <<Understanding the JVM: Advanced Features and Best Practices>>
+---------------------------------------------------------------------------------------------
+6.
+Code: jdk1.7.0_45
+Site: https://github.com/ifhuang/jdk1.7.0_45-src
 ---------------------------------------------------------------------------------------------
