@@ -32,7 +32,3 @@ Site: https://github.com/ifhuang/jcip-examples-src
 5.
 Book: <<Understanding the JVM: Advanced Features and Best Practices>>
 ---------------------------------------------------------------------------------------------
-6.
-Code: jdk1.7.0_45
-Site: https://github.com/ifhuang/jdk1.7.0_45-src
----------------------------------------------------------------------------------------------
